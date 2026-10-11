@@ -249,6 +249,17 @@
   @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .rstat .n small{color:var(--brand)}}
   .rstat .l{font-size:14px;opacity:.86;margin-top:8px;max-width:16em}
   .rnote{margin-top:32px;padding-top:26px;border-top:1px solid color-mix(in srgb,var(--results-fg) 22%,transparent);font-size:15px;opacity:.92;max-width:48em}
+  /* Proof screenshots */
+  .proof{display:grid;grid-template-columns:1fr;gap:18px;margin-top:26px}
+  @media(min-width:720px){.proof{grid-template-columns:1fr 1fr}}
+  .proof figure{margin:0;border-radius:16px;overflow:hidden;background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);
+    transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
+  .proof figure:hover{transform:translateY(-4px)}
+  .proof .frame{background:#fff;padding:12px;border-bottom:1px solid var(--line)}
+  .proof img{width:100%;height:auto;display:block;border-radius:8px}
+  .proof figcaption{padding:13px 16px;font-size:13.5px;color:var(--muted);font-weight:500;line-height:1.45}
+  .proof figcaption b{color:var(--ink);font-weight:700}
+  .proof-src{margin-top:16px;font-size:12.5px;color:var(--muted);opacity:.85}
 
   /* Process */
   .proc-sub{color:var(--muted);margin-top:14px;font-size:17px;max-width:40em}
@@ -556,6 +567,26 @@
       </div>
       <p class="rnote" data-i18n="results.note">Rebuilt Welcome, Post-Purchase and Winback architectures after a full account audit, across two storefronts.</p>
     </div>
+
+    <div class="proof" data-reveal>
+      <figure>
+        <div class="frame"><img src="res-1.png" alt="Klaviyo business performance summary" loading="lazy" decoding="async"></div>
+        <figcaption><b data-i18n="proof.c1b">$1.49M total revenue · $344K from email</b><br><span data-i18n="proof.c1">23.12% of all store revenue attributed to email &amp; SMS</span></figcaption>
+      </figure>
+      <figure>
+        <div class="frame"><img src="res-2.png" alt="Top performing Klaviyo flows" loading="lazy" decoding="async"></div>
+        <figcaption><b data-i18n="proof.c2b">Flows that recover revenue</b><br><span data-i18n="proof.c2">Welcome, Abandoned Cart &amp; Checkout, Post-Purchase — live and earning</span></figcaption>
+      </figure>
+      <figure>
+        <div class="frame"><img src="res-3.png" alt="Klaviyo conversion summary" loading="lazy" decoding="async"></div>
+        <figcaption><b data-i18n="proof.c3b">+103.95% attributed conversions</b><br><span data-i18n="proof.c3">vs. the previous period — campaigns and flows combined</span></figcaption>
+      </figure>
+      <figure>
+        <div class="frame"><img src="res-4.png" alt="Klaviyo flow performance" loading="lazy" decoding="async"></div>
+        <figcaption><b data-i18n="proof.c4b">54% open · 8.9% click rate</b><br><span data-i18n="proof.c4">Post-Purchase flow performance across 19,020 recipients</span></figcaption>
+      </figure>
+    </div>
+    <p class="proof-src" data-reveal data-i18n="proof.src">Screenshots from a real Klaviyo account · Jun–Sep 2026.</p>
   </section>
 
   <!-- PROCESS -->
@@ -756,6 +787,11 @@
       "r3":"conversion-rate lift from CRO work","r4":"customer records managed",
       "r5":"languages in one automated Welcome flow","r6":"products across Shopify Plus catalogs",
       "results.note":"Rebuilt Welcome, Post-Purchase and Winback architectures after a full account audit, across two storefronts.",
+      "proof.c1b":"$1.49M total revenue · $344K from email","proof.c1":"23.12% of all store revenue attributed to email & SMS",
+      "proof.c2b":"Flows that recover revenue","proof.c2":"Welcome, Abandoned Cart & Checkout, Post-Purchase — live and earning",
+      "proof.c3b":"+103.95% attributed conversions","proof.c3":"vs. the previous period — campaigns and flows combined",
+      "proof.c4b":"54% open · 8.9% click rate","proof.c4":"Post-Purchase flow performance across 19,020 recipients",
+      "proof.src":"Screenshots from a real Klaviyo account · Jun–Sep 2026.",
       "process.eyebrow":"You + a team","process.h":"You get me. The work gets a ","process.hl":"team.",
       "process.sub":"Direct access to the person who plans your retention, with the capacity of a team behind delivery — so quality and speed both hold as you grow.",
       "col1.tag":"Strategy","col1.h":"You work with me","col1.b":"Strategy, audits, the plan and the final call — one point of contact who knows your account.",
@@ -821,6 +857,11 @@
       "r3":"приріст конверсії від CRO-роботи","r4":"записів клієнтів в управлінні",
       "r5":"мов в одному автоматичному Welcome-флоу","r6":"товарів у каталогах Shopify Plus",
       "results.note":"Перебудовані архітектури Welcome, Post-Purchase і Winback після повного аудиту акаунта, на двох магазинах.",
+      "proof.c1b":"$1.49M загального доходу · $344K з email","proof.c1":"23,12% усього доходу магазину — з email і SMS",
+      "proof.c2b":"Флоу, що повертають дохід","proof.c2":"Welcome, кинутий кошик і чекаут, Post-Purchase — працюють і заробляють",
+      "proof.c3b":"+103,95% атрибутованих конверсій","proof.c3":"проти попереднього періоду — кампанії та флоу разом",
+      "proof.c4b":"54% відкриттів · 8,9% кліків","proof.c4":"Показники Post-Purchase флоу на 19 020 отримувачів",
+      "proof.src":"Скріншоти з реального Klaviyo-акаунта · червень–вересень 2026.",
       "process.eyebrow":"Я + команда","process.h":"Ви отримуєте мене. Роботу — ","process.hl":"команда.",
       "process.sub":"Прямий доступ до людини, що планує ваше утримання, і команда, що все виконує — щоб якість і швидкість трималися з ростом.",
       "col1.tag":"Стратегія","col1.h":"Працюєте зі мною","col1.b":"Стратегія, аудити, план і фінальне рішення — одна точка контакту, що знає ваш акаунт.",
