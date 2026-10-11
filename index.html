@@ -1,0 +1,1003 @@
+<title>Roman Hrabovyi</title>
+<style>
+  /* Layout: dark-first editorial, sticky header + mobile burger, hero with proof-metrics card.
+     Brand (ECOMRS): emerald green + metallic silver on near-black, with gradient depth + motion. */
+  :root{
+    /* DARK (brand-default) */
+    --paper:#090B09; --ink:#EAF0EA; --muted:#889289; --line:#20261F; --card:#11150F;
+    --brand:#1FC273; --brand-ink:#17A862; --brand-soft:#12241A;
+    --silver:#C7CED1; --silver-soft:#191E1D;
+    --results-bg:#0E160D; --results-fg:var(--ink);
+    --danger:#F2796B;
+    --grad-brand:linear-gradient(135deg,#2AD182 0%,#16B06A 55%,#0FA088 100%);
+    --grad-metal:linear-gradient(180deg,#FFFFFF 0%,#D4DBDE 44%,#9AA3A6 100%);
+    --glow-a:rgba(31,194,115,.26); --glow-b:rgba(20,160,120,.12);
+    --card-grad:linear-gradient(180deg,rgba(31,194,115,.06),rgba(31,194,115,0) 60%);
+    --shadow:0 1px 2px rgba(0,0,0,.45),0 18px 48px -24px rgba(0,0,0,.8);
+    --glow-shadow:0 10px 30px -10px rgba(31,194,115,.45);
+    --radius:16px;
+    --f-display:"Bricolage Grotesque","Hanken Grotesk",system-ui,sans-serif;
+    --f-body:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;
+    --maxw:1120px;
+    --ease:cubic-bezier(.22,.7,.2,1);
+    color-scheme:dark;
+  }
+  /* Committed dark theme — the page stays dark on any device setting. */
+
+  *{box-sizing:border-box}
+  body{background:var(--paper);color:var(--ink);font-family:var(--f-body);line-height:1.55;
+    font-size:16px;-webkit-font-smoothing:antialiased;letter-spacing:-.003em;overflow-x:hidden;position:relative}
+  /* ambient top glow */
+  body::before{content:"";position:absolute;top:0;left:0;right:0;height:860px;z-index:0;pointer-events:none;
+    background:radial-gradient(58% 48% at 82% -4%,var(--glow-a),transparent 70%),
+               radial-gradient(46% 40% at 8% 6%,var(--glow-b),transparent 72%)}
+  h1,h2,h3{font-family:var(--f-display);font-weight:700;line-height:1.05;text-wrap:balance;margin:0}
+  p{margin:0}
+  a{color:inherit}
+  main{position:relative;z-index:1}
+  .wrap{max-width:var(--maxw);margin-inline:auto;padding-inline:20px}
+  .eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--brand)}
+  .eyebrow::before{content:"";width:22px;height:2px;border-radius:2px;background:var(--grad-brand)}
+  .tnum{font-variant-numeric:tabular-nums}
+
+  .grad-metal{color:var(--ink)}
+  .hl{color:var(--brand)}
+  @supports ((-webkit-background-clip:text) or (background-clip:text)){
+    .grad-metal{background:var(--grad-metal);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+    .hl{background:var(--grad-brand);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+  }
+
+  /* Header */
+  header.site{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;
+    background:color-mix(in srgb,var(--paper) 72%,transparent);backdrop-filter:blur(14px) saturate(1.2);
+    border-bottom:1px solid transparent;transition:border-color .3s var(--ease),background .3s var(--ease),box-shadow .3s var(--ease)}
+  header.site.scrolled{border-bottom-color:var(--line);box-shadow:0 10px 30px -22px rgba(0,0,0,.7);
+    background:color-mix(in srgb,var(--paper) 86%,transparent)}
+  .bar{display:flex;align-items:center;gap:14px;min-height:62px}
+  .brand{font-family:var(--f-display);font-weight:700;font-size:17px;letter-spacing:-.02em;
+    display:flex;align-items:center;gap:10px;text-decoration:none;margin-right:auto;white-space:nowrap;min-width:0}
+  .dot{width:12px;height:12px;border-radius:50%;background:var(--grad-brand);flex:none;
+    box-shadow:0 0 0 4px var(--brand-soft),0 0 14px 1px var(--brand);animation:pulse 3.2s var(--ease) infinite}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 4px var(--brand-soft),0 0 10px 0 rgba(31,194,115,.5)}
+    50%{box-shadow:0 0 0 5px var(--brand-soft),0 0 18px 2px rgba(31,194,115,.85)}}
+  .nav{display:none}
+  .nav a{font-size:14px;color:var(--muted);text-decoration:none;font-weight:500;position:relative}
+  .nav a::after{content:"";position:absolute;left:0;right:100%;bottom:-6px;height:2px;border-radius:2px;background:var(--grad-brand);transition:right .25s var(--ease)}
+  .nav a:hover{color:var(--ink)} .nav a:hover::after{right:0}
+  .tools{display:flex;align-items:center;gap:10px;flex:none}
+  .lang{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;font-size:12px;font-weight:600}
+  .lang button{border:0;background:transparent;color:var(--muted);padding:6px 11px;cursor:pointer;font:inherit;transition:color .2s}
+  .lang button[aria-pressed="true"]{background:var(--grad-brand);color:#06130C}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:600;font-size:14px;
+    padding:12px 20px;border-radius:999px;border:1px solid transparent;cursor:pointer;text-decoration:none;
+    transition:transform .15s var(--ease),box-shadow .25s var(--ease),border-color .2s var(--ease),background .2s var(--ease)}
+  .btn-primary{position:relative;overflow:hidden;background:var(--grad-brand);color:#06130C;box-shadow:var(--glow-shadow)}
+  .btn-primary::after{content:"";position:absolute;top:0;left:-130%;width:55%;height:100%;transform:skewX(-18deg);
+    background:linear-gradient(100deg,transparent,rgba(255,255,255,.4),transparent);transition:left .6s var(--ease);pointer-events:none}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 16px 36px -12px rgba(31,194,115,.6)}
+  .btn-primary:hover::after{left:150%}
+  .btn-primary:active{transform:translateY(0)}
+  .progress{position:fixed;top:env(safe-area-inset-top,0px);left:0;height:3px;width:0;z-index:60;
+    background:var(--grad-brand);box-shadow:0 0 10px rgba(31,194,115,.6);transition:width .1s linear}
+  .btn-ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+  .btn-ghost:hover{border-color:var(--brand);color:var(--brand);transform:translateY(-2px)}
+  .nav-cta{display:none}
+  .burger{display:inline-grid;place-items:center;width:42px;height:42px;border:1px solid var(--line);
+    border-radius:12px;background:transparent;color:var(--ink);cursor:pointer;flex:none;transition:border-color .2s}
+  .burger:hover{border-color:var(--brand)}
+  .burger svg{width:20px;height:20px}
+  .burger .ic-open{display:none}
+  .burger[aria-expanded="true"] .ic-closed{display:none}
+  .burger[aria-expanded="true"] .ic-open{display:block}
+  .mobile-menu{position:absolute;left:0;right:0;top:100%;background:color-mix(in srgb,var(--paper) 94%,transparent);
+    backdrop-filter:blur(14px);border-bottom:1px solid var(--line);box-shadow:var(--shadow);padding:10px 20px 16px}
+  .mobile-menu nav{display:flex;flex-direction:column}
+  .mobile-menu nav a{padding:14px 4px;font-size:16px;font-weight:600;text-decoration:none;color:var(--ink);border-bottom:1px solid var(--line)}
+  .mobile-menu .btn{margin-top:14px;width:100%;padding:14px}
+  @media(min-width:860px){
+    .nav{display:flex;gap:26px}
+    .nav-cta{display:inline-flex}
+    .burger{display:none}
+    .mobile-menu{display:none!important}
+  }
+
+  /* Hero */
+  .hero{padding-block:68px 44px}
+  .hero-grid{display:grid;grid-template-columns:1fr;gap:38px;align-items:center}
+  @media(min-width:960px){.hero-grid{grid-template-columns:1.12fr .88fr;gap:52px}}
+  .hero h1{font-size:clamp(40px,6.6vw,66px);letter-spacing:-.035em;margin-top:16px}
+  .hero h1 .accent{background:var(--grad-brand);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+  .hero .sub{font-size:clamp(16px,2.2vw,19px);color:var(--muted);max-width:33em;margin-top:20px}
+  .hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+  .hero-micro{margin-top:16px;font-size:12.5px;font-weight:600;color:var(--brand);letter-spacing:.01em}
+  .hero-trust{margin-top:16px;font-size:13px;color:var(--muted);font-weight:500}
+
+  /* Hero photo */
+  .hero-photo{position:relative;min-width:0}
+  .photo-frame{position:relative;border-radius:22px;overflow:hidden;isolation:isolate;aspect-ratio:4/5;
+    background:linear-gradient(var(--card),var(--card)) padding-box,var(--grad-brand) border-box;border:1.5px solid transparent;box-shadow:var(--shadow)}
+  .photo-frame img{width:100%;height:100%;object-fit:cover;object-position:60% 22%;display:block}
+  .photo-frame::after{content:"";position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(180deg,rgba(9,11,9,.12) 0%,transparent 34%,transparent 54%,rgba(9,11,9,.62) 100%)}
+  .photo-glow{position:absolute;inset:-14% -10% auto;height:62%;z-index:-1;filter:blur(52px);opacity:.6;
+    background:radial-gradient(60% 100% at 58% 0%,var(--glow-a),transparent 70%);animation:floaty 7s var(--ease) infinite}
+  .photo-stat{position:absolute;left:16px;right:16px;bottom:16px;max-width:290px;
+    background:color-mix(in srgb,var(--card) 80%,transparent);backdrop-filter:blur(13px) saturate(1.2);
+    border:1px solid color-mix(in srgb,var(--brand) 26%,var(--line));border-radius:15px;padding:16px 18px;box-shadow:var(--shadow)}
+  .photo-stat .big{font-family:var(--f-display);font-weight:700;font-size:clamp(34px,8vw,42px);letter-spacing:-.04em;line-height:1;color:var(--brand)}
+  @supports ((-webkit-background-clip:text) or (background-clip:text)){
+    .photo-stat .big{background:var(--grad-brand);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+  }
+  .photo-stat .big small{font-size:.44em;color:var(--silver);-webkit-text-fill-color:var(--silver);background:none;vertical-align:top;font-weight:700;margin-left:2px}
+  .photo-stat .cap{color:var(--muted);font-size:12.5px;margin-top:5px;line-height:1.4}
+  .photo-stat .mrow3{display:flex;gap:14px;margin-top:12px;padding-top:11px;border-top:1px solid var(--line)}
+  .photo-stat .mrow3 div .n{font-family:var(--f-display);font-weight:700;font-size:15px;letter-spacing:-.02em}
+  .photo-stat .mrow3 div .l{font-size:10px;color:var(--muted);line-height:1.2;margin-top:1px}
+  @media(max-width:600px){
+    .photo-frame{aspect-ratio:5/5}
+    .photo-stat{max-width:none}
+  }
+
+  /* Metrics card */
+  .mcard{position:relative;border-radius:var(--radius);padding:26px;min-width:0;isolation:isolate;
+    background:linear-gradient(var(--card),var(--card)) padding-box,var(--grad-brand) border-box;
+    border:1.5px solid transparent;box-shadow:var(--shadow)}
+  .mcard::before{content:"";position:absolute;inset:0;border-radius:inherit;z-index:-1;background:var(--card-grad)}
+  .mcard .glow{position:absolute;inset:-30% -10% auto;height:70%;z-index:-2;filter:blur(46px);opacity:.55;
+    background:radial-gradient(60% 100% at 70% 0%,var(--glow-a),transparent 70%);animation:floaty 7s var(--ease) infinite}
+  @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+  .mcard .big{font-family:var(--f-display);font-weight:700;font-size:clamp(48px,9vw,64px);letter-spacing:-.04em;line-height:1;color:var(--brand)}
+  @supports ((-webkit-background-clip:text) or (background-clip:text)){
+    .mcard .big{background:var(--grad-brand);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+  }
+  .mcard .big small{font-size:.42em;color:var(--silver);-webkit-text-fill-color:var(--silver);background:none;vertical-align:top;font-weight:700;margin-left:2px}
+  .mcard .cap{color:var(--muted);font-size:14px;margin-top:6px}
+  .mcard-note{margin-top:22px;padding-top:20px;border-top:1px solid var(--line);font-size:14.5px;line-height:1.55;color:var(--muted);font-weight:500}
+  .splitlabels{display:flex;justify-content:space-between;font-size:12px;font-weight:600;color:var(--muted);margin-top:24px}
+  .splitlabels b{color:var(--ink)}
+  .split{display:flex;height:12px;border-radius:999px;overflow:hidden;margin-top:7px;background:var(--line)}
+  .split span{display:block;height:100%;width:0;transition:width 1.1s var(--ease)}
+  .split .flows{background:var(--grad-brand)}
+  .split .camp{background:linear-gradient(90deg,var(--silver),color-mix(in srgb,var(--silver) 60%,transparent))}
+  .mrow{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:24px;padding-top:22px;border-top:1px solid var(--line)}
+  .mrow div{text-align:center}
+  .mrow .n{font-family:var(--f-display);font-weight:700;font-size:20px;letter-spacing:-.02em}
+  .mrow .l{font-size:11px;color:var(--muted);margin-top:2px;line-height:1.2}
+  /* Hero dashboard visual */
+  .hv-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .hv-label{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .hv-trend{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;color:var(--brand);
+    background:var(--brand-soft);border:1px solid color-mix(in srgb,var(--brand) 26%,var(--line));border-radius:999px;padding:4px 10px}
+  .hv-trend svg{width:12px;height:12px}
+  .hv-chart{width:100%;height:auto;display:block;margin:16px 0 6px;overflow:visible}
+  .hv-grid{stroke:var(--line);stroke-width:1;stroke-dasharray:3 5;opacity:.7}
+  .hv-line{fill:none;stroke:url(#hvstroke);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;filter:url(#hvglow)}
+  .hv-dot{fill:#06130C;stroke:var(--brand);stroke-width:3}
+  .hv-dot-ring{fill:none;stroke:var(--brand);stroke-width:2;opacity:.45}
+  .hv-spark{fill:#eafff4}
+  .hv-g-top{stop-color:var(--brand);stop-opacity:.42}
+  .hv-g-mid{stop-color:var(--brand);stop-opacity:.12}
+  .hv-g-bot{stop-color:var(--brand);stop-opacity:0}
+  .hv-s1{stop-color:#2AD182}.hv-s2{stop-color:#16B06A}.hv-s3{stop-color:#0FA088}
+  .hv-bubble rect{fill:#06130C;stroke:var(--brand);stroke-width:1.5}
+  .hv-bubble text{fill:var(--brand);font:700 13px var(--f-display);letter-spacing:-.02em}
+  /* draw-on-reveal */
+  .anim .hv-line{stroke-dasharray:640;stroke-dashoffset:640}
+  .anim .mcard.in .hv-line{transition:stroke-dashoffset 1.6s var(--ease);stroke-dashoffset:0}
+  .anim .hv-area,.anim .hv-dot,.anim .hv-dot-ring,.anim .hv-bubble,.anim .hv-spark{opacity:0;transition:opacity .7s var(--ease) .9s}
+  .anim .mcard.in .hv-area,.anim .mcard.in .hv-dot,.anim .mcard.in .hv-bubble,.anim .mcard.in .hv-spark{opacity:1}
+  .anim .mcard.in .hv-dot-ring{opacity:.45}
+  /* continuous premium motion */
+  @keyframes dotpulse{0%{r:5;opacity:.5}70%,100%{r:16;opacity:0}}
+  .hv-dot-ring{animation:dotpulse 2.8s ease-out infinite}
+  @keyframes sheen{0%{transform:translateX(-40%)}100%{transform:translateX(130%)}}
+  .hv-sheen{animation:sheen 3.6s var(--ease) infinite;mix-blend-mode:screen}
+  @keyframes sparkmove{0%{opacity:0}8%{opacity:1}92%{opacity:1}100%{opacity:0}}
+  .hv-spark{animation:sparkmove 3.6s linear infinite}
+  @media (prefers-reduced-motion:reduce){.hv-dot-ring,.hv-sheen,.hv-spark{animation:none}}
+
+  /* Niche ribbon */
+  .ribbon{border-block:1px solid var(--line);background:linear-gradient(90deg,transparent,var(--brand-soft) 50%,transparent)}
+  .ribbon .wrap{padding-block:15px;text-align:center;font-size:13px;font-weight:600;color:var(--brand);letter-spacing:.02em}
+
+  /* Section */
+  section.block{padding-block:78px}
+  #fit, #process{position:relative}
+  #fit::before, #process::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+    background:radial-gradient(70% 55% at 50% -8%, var(--glow-b), transparent 72%)}
+  .sec-head{max-width:34em}
+  .sec-head h2{font-size:clamp(28px,4.4vw,41px);letter-spacing:-.025em;margin-top:13px}
+  .sec-head p{color:var(--muted);margin-top:14px;font-size:17px}
+
+  /* Problem */
+  .cards3{display:grid;grid-template-columns:1fr;gap:16px;margin-top:38px}
+  @media(min-width:760px){.cards3{grid-template-columns:repeat(3,1fr)}}
+  .pcard{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px;
+    transition:transform .3s var(--ease),border-color .3s var(--ease),box-shadow .3s var(--ease)}
+  .pcard:hover{transform:translateY(-4px);border-color:color-mix(in srgb,var(--brand) 40%,var(--line));box-shadow:var(--shadow)}
+  .pcard h3{font-size:18px;letter-spacing:-.01em}
+  .pcard p{color:var(--muted);font-size:14.5px;margin-top:8px}
+  .pcard .mk{width:36px;height:36px;border-radius:10px;background:var(--silver-soft);display:grid;place-items:center;color:var(--silver);margin-bottom:15px}
+  .pcard .mk svg{width:18px;height:18px}
+
+  /* Services */
+  .svc{display:grid;grid-template-columns:1fr;gap:1px;margin-top:42px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+  @media(min-width:720px){.svc{grid-template-columns:1fr 1fr}}
+  @media(min-width:1000px){.svc{grid-template-columns:repeat(3,1fr)}}
+  .svc > div{background:var(--card);padding:26px;position:relative;transition:background .3s var(--ease)}
+  .svc > div::after{content:"";position:absolute;left:0;top:0;height:2px;width:0;background:var(--grad-brand);transition:width .4s var(--ease)}
+  .svc > div:hover{background:color-mix(in srgb,var(--brand-soft) 50%,var(--card))}
+  .svc > div:hover::after{width:100%}
+  .svc .num{font-family:var(--f-display);font-size:13px;font-weight:700;letter-spacing:.02em;
+    background:var(--grad-brand);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+  .svc h3{font-size:18px;margin-top:10px;letter-spacing:-.01em}
+  .svc p{color:var(--muted);font-size:14.5px;margin-top:9px}
+
+  /* Results */
+  .results{position:relative;color:var(--results-fg);border:1px solid var(--line);border-radius:24px;padding:clamp(28px,5vw,50px);margin-top:42px;overflow:hidden;
+    background:var(--results-bg)}
+  .results::before{content:"";position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(70% 90% at 85% -10%,rgba(31,194,115,.22),transparent 60%),
+               radial-gradient(60% 80% at 0% 110%,rgba(16,160,120,.14),transparent 60%)}
+  .results > *{position:relative}
+  .rgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:30px 24px}
+  @media(min-width:760px){.rgrid{grid-template-columns:repeat(3,1fr)}}
+  .rstat .n{font-family:var(--f-display);font-weight:700;font-size:clamp(34px,6vw,48px);letter-spacing:-.03em;line-height:1}
+  .rstat .n small{color:var(--brand);font-size:.5em;margin-left:2px;vertical-align:top}
+  :root[data-theme="light"] .rstat .n small,
+  .results .rstat .n small{color:var(--silver)}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .rstat .n small{color:var(--brand)}}
+  .rstat .l{font-size:14px;opacity:.86;margin-top:8px;max-width:16em}
+  .rnote{margin-top:32px;padding-top:26px;border-top:1px solid color-mix(in srgb,var(--results-fg) 22%,transparent);font-size:15px;opacity:.92;max-width:48em}
+
+  /* Process */
+  .proc-sub{color:var(--muted);margin-top:14px;font-size:17px;max-width:40em}
+  .cols3{display:grid;grid-template-columns:1fr;gap:16px;margin-top:40px}
+  @media(min-width:760px){.cols3{grid-template-columns:repeat(3,1fr)}}
+  .pc{border:1px solid var(--line);border-radius:var(--radius);padding:26px;background:var(--card);
+    transition:transform .3s var(--ease),border-color .3s var(--ease),box-shadow .3s var(--ease)}
+  .pc:hover{transform:translateY(-4px);border-color:color-mix(in srgb,var(--brand) 40%,var(--line));box-shadow:var(--shadow)}
+  .pc h3{font-size:18px;letter-spacing:-.01em;margin-top:8px}
+  .pc p{color:var(--muted);font-size:14.5px;margin-top:9px}
+  .pc .tag{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+    background:var(--grad-brand);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+  .steps{display:grid;grid-template-columns:1fr;gap:14px;margin-top:24px}
+  @media(min-width:760px){.steps{grid-template-columns:repeat(3,1fr)}}
+  .step{display:flex;gap:14px;align-items:flex-start;padding:20px 22px;border-radius:var(--radius);
+    background:linear-gradient(180deg,var(--brand-soft),transparent);border:1px solid var(--line)}
+  .step .s{font-family:var(--f-display);font-weight:700;font-size:15px;color:#06130C;background:var(--grad-brand);
+    width:30px;height:30px;border-radius:50%;display:grid;place-items:center;flex:none;box-shadow:var(--glow-shadow)}
+  .step h4{margin:0;font-size:15px;font-family:var(--f-display)}
+  .step p{margin-top:3px;font-size:13.5px;color:var(--muted)}
+
+  /* Stack */
+  .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}
+  .chip{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:10px 17px;font-size:14px;font-weight:600;
+    transition:transform .2s var(--ease),border-color .2s var(--ease)}
+  .chip:hover{transform:translateY(-2px);border-color:var(--brand)}
+  .chip b{color:var(--brand)}
+  .ai-row{margin-top:30px}
+  .ai-label{display:inline-flex;align-items:center;gap:9px;font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .ai-label::before{content:"";width:18px;height:2px;border-radius:2px;background:var(--grad-brand)}
+  .chips-ai{margin-top:14px}
+  .ai-note{color:var(--muted);font-size:14.5px;margin-top:14px;max-width:46em}
+
+  /* About */
+  .about{display:grid;grid-template-columns:1fr;gap:32px;margin-top:8px;align-items:start}
+  @media(min-width:860px){.about{grid-template-columns:.9fr 1.1fr}}
+  .about .lead{font-size:clamp(19px,2.6vw,25px);font-family:var(--f-display);font-weight:600;letter-spacing:-.02em}
+  .about p.body{color:var(--muted);font-size:16px}
+  .about .mini{display:flex;gap:28px;flex-wrap:wrap;margin-top:24px}
+  .about .mini div .n{font-family:var(--f-display);font-weight:700;font-size:25px;
+    background:var(--grad-brand);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+  .about .mini div .l{font-size:12.5px;color:var(--muted)}
+  .qa{display:grid;gap:24px}
+  .qa-l{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--brand);margin-bottom:7px;display:inline-flex;align-items:center;gap:9px}
+  .qa-l::before{content:"";width:18px;height:2px;border-radius:2px;background:var(--grad-brand)}
+  .qa-item p{color:var(--muted);font-size:15.5px;line-height:1.62}
+  /* Image placeholders */
+  .ph{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;
+    border:1.5px dashed color-mix(in srgb,var(--brand) 32%,var(--line));border-radius:var(--radius);
+    background:linear-gradient(180deg,var(--brand-soft),transparent);color:var(--muted);text-align:center;padding:18px;overflow:hidden;max-width:100%}
+  .ph::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(60% 70% at 50% 0%,var(--glow-b),transparent 70%)}
+  .ph svg{width:28px;height:28px;color:var(--brand);opacity:.85;position:relative}
+  .ph span{font-size:12.5px;font-weight:600;letter-spacing:.02em;position:relative}
+  .portrait{width:140px;height:140px;border-radius:50%;margin-bottom:22px;padding:12px}
+  .about-photo{position:relative;border-radius:18px;overflow:hidden;aspect-ratio:4/3;margin-bottom:22px;max-width:400px;isolation:isolate;
+    background:linear-gradient(var(--card),var(--card)) padding-box,var(--grad-brand) border-box;border:1.5px solid transparent;box-shadow:var(--shadow)}
+  .about-photo img{width:100%;height:100%;object-fit:cover;object-position:55% 22%;display:block}
+  .about-photo::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,transparent 58%,rgba(9,11,9,.42))}
+  .shots{display:grid;grid-template-columns:1fr;gap:16px;margin-top:40px}
+  @media(min-width:760px){.shots{grid-template-columns:repeat(3,1fr)}}
+
+  /* CTA / form */
+  .cta{position:relative;border-radius:24px;box-shadow:var(--shadow);padding:clamp(28px,4vw,46px);
+    display:grid;grid-template-columns:1fr;gap:34px;isolation:isolate;
+    background:linear-gradient(var(--card),var(--card)) padding-box,var(--grad-brand) border-box;border:1.5px solid transparent}
+  .cta::before{content:"";position:absolute;inset:0;border-radius:inherit;z-index:-1;
+    background:radial-gradient(60% 70% at 100% 0%,var(--glow-b),transparent 60%)}
+  @media(min-width:880px){.cta{grid-template-columns:.9fr 1.1fr;gap:48px}}
+  .cta h2{font-size:clamp(26px,4vw,38px);letter-spacing:-.025em}
+  .cta .sub{color:var(--muted);margin-top:14px;font-size:16px}
+  .audit-list{list-style:none;margin:22px 0 0;padding:0;display:grid;gap:11px}
+  .audit-list li{position:relative;padding-left:30px;font-size:14.5px;color:var(--ink);font-weight:500}
+  .audit-list li::before{content:"";position:absolute;left:0;top:0;width:21px;height:21px;border-radius:7px;background:var(--brand-soft);
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231FC273' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5L20 7'/%3E%3C/svg%3E");background-size:13px;background-repeat:no-repeat;background-position:center}
+  .form-note{font-size:12.5px;color:var(--muted);margin-top:11px;text-align:center}
+  .contacts{margin-top:26px;display:flex;flex-direction:column;gap:12px}
+  .contacts a,.contacts .ci{display:flex;align-items:center;gap:12px;font-weight:600;font-size:15px;text-decoration:none;color:var(--ink);word-break:break-word}
+  .contacts a:hover .ic{transform:translateY(-2px)}
+  .contacts .ic{width:38px;height:38px;border-radius:11px;background:var(--brand-soft);color:var(--brand);display:grid;place-items:center;flex:none;transition:transform .2s var(--ease)}
+  .contacts .ic svg{width:18px;height:18px}
+  form{display:grid;gap:14px}
+  .field{display:grid;gap:6px}
+  .field label{font-size:13px;font-weight:600;color:var(--muted)}
+  .field input,.field select,.field textarea{width:100%;font:inherit;color:var(--ink);background:var(--paper);
+    border:1px solid var(--line);border-radius:12px;padding:13px 14px;outline:none;transition:border-color .2s var(--ease),box-shadow .2s var(--ease)}
+  .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-soft)}
+  .field textarea{min-height:94px;resize:vertical}
+  .two{display:grid;grid-template-columns:1fr;gap:14px}
+  @media(min-width:560px){.two{grid-template-columns:1fr 1fr}}
+  .form-err{color:var(--danger);font-size:13.5px;font-weight:600}
+  form .btn-primary{margin-top:4px;width:100%;padding:15px}
+  .success{border:1px solid var(--brand);background:linear-gradient(180deg,var(--brand-soft),transparent);border-radius:var(--radius);padding:24px}
+  .success h3{font-size:19px;color:var(--brand)}
+  .success p{color:var(--muted);font-size:14.5px;margin-top:8px}
+  .success pre{white-space:pre-wrap;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:15px;margin-top:14px;font-family:var(--f-body);font-size:13.5px;color:var(--ink);overflow-x:auto}
+  .success .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:15px}
+  :focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+
+  /* Footer */
+  footer.site{border-top:1px solid var(--line);margin-top:24px;position:relative;z-index:1}
+  footer.site .wrap{padding-block:36px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;color:var(--muted);font-size:14px}
+  footer .fbrand{font-weight:600}
+
+  /* Reveal animation (gated by .anim on <html>; default = fully visible at rest) */
+  .anim [data-reveal]{opacity:0;transform:translateY(20px);
+    transition:opacity .75s var(--ease),transform .75s var(--ease)}
+  .anim [data-reveal].in{opacity:1;transform:none}
+  .anim body::before{animation:glowdrift 16s ease-in-out infinite}
+  @keyframes glowdrift{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(-3%,2%,0)}}
+
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+    .anim [data-reveal]{opacity:1!important;transform:none!important}
+    .split span{width:var(--w,0)!important;transition:none!important}
+  }
+</style>
+
+<div class="progress" id="progress" aria-hidden="true"></div>
+<header class="site" id="site-header">
+  <div class="wrap bar">
+    <a class="brand grad-metal" href="#top"><span class="dot"></span>Roman&nbsp;Hrabovyi</a>
+    <nav class="nav">
+      <a href="#services" data-i18n="nav.work">Work</a>
+      <a href="#results" data-i18n="nav.results">Results</a>
+      <a href="#process" data-i18n="nav.process">Process</a>
+      <a href="#about" data-i18n="nav.about">About</a>
+    </nav>
+    <div class="tools">
+      <div class="lang" role="group" aria-label="Language">
+        <button type="button" data-lang="en" aria-pressed="true">EN</button>
+        <button type="button" data-lang="ua" aria-pressed="false">UA</button>
+      </div>
+      <a class="btn btn-primary nav-cta" href="#start" data-i18n="nav.cta">Leave a request</a>
+      <button class="burger" id="burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="mobile-menu">
+        <svg class="ic-closed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        <svg class="ic-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobile-menu" hidden>
+    <nav>
+      <a href="#services" data-i18n="nav.work">Work</a>
+      <a href="#results" data-i18n="nav.results">Results</a>
+      <a href="#process" data-i18n="nav.process">Process</a>
+      <a href="#about" data-i18n="nav.about">About</a>
+    </nav>
+    <a class="btn btn-primary" href="#start" data-i18n="nav.cta">Leave a request</a>
+  </div>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero wrap">
+    <div class="hero-grid">
+      <div>
+        <span class="eyebrow" data-reveal data-i18n="hero.eyebrow">Klaviyo &amp; Retention · DTC</span>
+        <h1 data-reveal><span data-i18n="hero.h1pre">Email marketing that </span><span class="accent" data-i18n="hero.h1accent">drives sales.</span></h1>
+        <p class="sub" data-reveal data-i18n="hero.sub">Klaviyo flows and campaigns that turn subscribers into repeat buyers — up to 28.5% of store revenue, 68% of it on autopilot. You work directly with me; my team ships it, fast.</p>
+        <div class="hero-actions" data-reveal>
+          <a class="btn btn-primary" href="#start" data-i18n="hero.cta1">Get a free audit</a>
+          <a class="btn btn-ghost" href="#results" data-i18n="hero.cta2">See results</a>
+        </div>
+        <p class="hero-micro" data-reveal data-i18n="hero.micro">Free audit · a clear action plan · no commitment.</p>
+        <p class="hero-trust" data-reveal data-i18n="hero.trust">3 yrs Klaviyo · 10+ yrs e-commerce · Shopify Plus · 5 languages</p>
+      </div>
+
+      <aside class="mcard" data-reveal aria-label="Email revenue dashboard">
+        <span class="glow" aria-hidden="true"></span>
+        <div class="hv-head">
+          <span class="hv-label" data-i18n="viz.label">Email revenue</span>
+          <span class="hv-trend"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18L11 10l4 4 5-7"/><path d="M15 7h5v5"/></svg><span data-i18n="viz.trend">Growth</span></span>
+        </div>
+        <svg class="hv-chart" viewBox="0 0 320 134" role="img" aria-label="Upward email revenue trend">
+          <defs>
+            <linearGradient id="hvfill" x1="0" y1="0" x2="0" y2="1">
+              <stop class="hv-g-top" offset="0"/><stop class="hv-g-mid" offset=".55"/><stop class="hv-g-bot" offset="1"/>
+            </linearGradient>
+            <linearGradient id="hvstroke" x1="0" y1="0" x2="1" y2="0">
+              <stop class="hv-s1" offset="0"/><stop class="hv-s2" offset=".55"/><stop class="hv-s3" offset="1"/>
+            </linearGradient>
+            <linearGradient id="hvsheen" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="#fff" stop-opacity="0"/>
+              <stop offset=".5" stop-color="#fff" stop-opacity=".22"/>
+              <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+            </linearGradient>
+            <filter id="hvglow" x="-20%" y="-60%" width="140%" height="220%">
+              <feGaussianBlur stdDeviation="3" result="b"/>
+              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <clipPath id="hvclip"><path d="M10,104 C16.3,102.7 35.3,96.5 48,96 C60.7,95.5 73.3,103.7 86,101 C98.7,98.3 111.3,84.8 124,80 C136.7,75.2 149.3,76.0 162,72 C174.7,68.0 187.3,59.7 200,56 C212.7,52.3 225.3,54.0 238,50 C250.7,46.0 263.7,37.0 276,32 C288.3,27.0 306.0,22.0 312,20 L312,120 L10,120 Z"/></clipPath>
+          </defs>
+          <line class="hv-grid" x1="8" y1="34" x2="312" y2="34"/>
+          <line class="hv-grid" x1="8" y1="70" x2="312" y2="70"/>
+          <line class="hv-grid" x1="8" y1="106" x2="312" y2="106"/>
+          <path class="hv-area" fill="url(#hvfill)" d="M10,104 C16.3,102.7 35.3,96.5 48,96 C60.7,95.5 73.3,103.7 86,101 C98.7,98.3 111.3,84.8 124,80 C136.7,75.2 149.3,76.0 162,72 C174.7,68.0 187.3,59.7 200,56 C212.7,52.3 225.3,54.0 238,50 C250.7,46.0 263.7,37.0 276,32 C288.3,27.0 306.0,22.0 312,20 L312,120 L10,120 Z"/>
+          <g clip-path="url(#hvclip)"><rect class="hv-sheen" x="0" y="0" width="90" height="134" fill="url(#hvsheen)"/></g>
+          <path class="hv-line" d="M10,104 C16.3,102.7 35.3,96.5 48,96 C60.7,95.5 73.3,103.7 86,101 C98.7,98.3 111.3,84.8 124,80 C136.7,75.2 149.3,76.0 162,72 C174.7,68.0 187.3,59.7 200,56 C212.7,52.3 225.3,54.0 238,50 C250.7,46.0 263.7,37.0 276,32 C288.3,27.0 306.0,22.0 312,20"/>
+          <circle class="hv-spark" r="3.5">
+            <animateMotion dur="3.6s" repeatCount="indefinite" rotate="auto"
+              path="M10,104 C16.3,102.7 35.3,96.5 48,96 C60.7,95.5 73.3,103.7 86,101 C98.7,98.3 111.3,84.8 124,80 C136.7,75.2 149.3,76.0 162,72 C174.7,68.0 187.3,59.7 200,56 C212.7,52.3 225.3,54.0 238,50 C250.7,46.0 263.7,37.0 276,32 C288.3,27.0 306.0,22.0 312,20"/>
+          </circle>
+          <circle class="hv-dot-ring" cx="312" cy="20" r="5"/>
+          <circle class="hv-dot" cx="312" cy="20" r="4.5"/>
+          <g class="hv-bubble" transform="translate(250,2)">
+            <rect x="0" y="0" width="60" height="22" rx="7"/>
+            <text x="30" y="15" text-anchor="middle">+28.5%</text>
+          </g>
+        </svg>
+        <div class="big tnum"><span class="count" data-to="28.5" data-dec="1">28.5</span><small>%</small></div>
+        <div class="cap"><span data-i18n="metrics.share">of store revenue from email + SMS</span></div>
+        <div class="mrow">
+          <div><div class="n tnum"><span class="count" data-to="100" data-suf="k+">100k+</span></div><div class="l" data-i18n="metrics.m1">customers</div></div>
+          <div><div class="n tnum"><span class="count" data-to="10" data-suf="k+">10k+</span></div><div class="l" data-i18n="metrics.m2">products</div></div>
+          <div><div class="n tnum"><span class="count" data-to="12" data-pre="+" data-suf="%">+12%</span></div><div class="l" data-i18n="metrics.m3">conversion lift</div></div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- RIBBON -->
+  <div class="ribbon"><div class="wrap" data-i18n="niche">Perfume · Cosmetics · Apparel · Home goods · DTC US &amp; EU</div></div>
+
+  <!-- PROBLEM -->
+  <section class="block wrap" id="problem">
+    <div class="sec-head" data-reveal>
+      <span class="eyebrow" data-i18n="problem.eyebrow">The problem</span>
+      <h2><span data-i18n="problem.h">You're leaving money in the </span><span class="hl" data-i18n="problem.hl">inbox.</span></h2>
+      <p data-i18n="problem.sub">Every day without working flows is revenue walking out the door — and it's recoverable from the list you already have.</p>
+    </div>
+    <div class="cards3">
+      <div class="pcard" data-reveal>
+        <div class="mk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7l9 6 9-6"/><rect x="3" y="5" width="18" height="14" rx="2"/></svg></div>
+        <h3 data-i18n="p1.h">Flows half-built</h3>
+        <p data-i18n="p1.b">Welcome, cart and post-purchase exist on paper but don't recover the revenue they should.</p>
+      </div>
+      <div class="pcard" data-reveal>
+        <div class="mk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V5M10 19v-8M16 19v-5M22 19H2"/></svg></div>
+        <h3 data-i18n="p2.h">Campaigns ad hoc</h3>
+        <p data-i18n="p2.b">No calendar, no segmentation — the same blast to everyone, quietly hurting deliverability.</p>
+      </div>
+      <div class="pcard" data-reveal>
+        <div class="mk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg></div>
+        <h3 data-i18n="p3.h">No read on the data</h3>
+        <p data-i18n="p3.b">LTV, churn and flow revenue aren't tracked, so priorities come down to guesswork.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="block wrap" id="services">
+    <div class="sec-head" data-reveal>
+      <span class="eyebrow" data-i18n="services.eyebrow">What I set up</span>
+      <h2><span data-i18n="services.h">A Klaviyo system built to </span><span class="hl" data-i18n="services.hl">sell.</span></h2>
+    </div>
+    <div class="svc" data-reveal>
+      <div><div class="num">01</div><h3 data-i18n="s1.h">Flow architecture</h3><p data-i18n="s1.b">Welcome, Abandoned Cart, Browse Abandonment, Post-Purchase, Winback, Review and VIP — automated revenue that keeps earning while you sleep.</p></div>
+      <div><div class="num">02</div><h3 data-i18n="s2.h">Audit &amp; migration</h3><p data-i18n="s2.b">A full audit that shows exactly where revenue leaks — with prioritized fixes and the money each one is worth.</p></div>
+      <div><div class="num">03</div><h3 data-i18n="s3.h">Segmentation &amp; deliverability</h3><p data-i18n="s3.b">The right message to the right segment — higher opens, more sales, and an inbox that trusts you.</p></div>
+      <div><div class="num">04</div><h3 data-i18n="s4.h">Multilingual flows</h3><p data-i18n="s4.b">Localized journeys that sell in every market you ship to — a 5-language Welcome flow with automatic discounts.</p></div>
+      <div><div class="num">05</div><h3 data-i18n="s5.h">Shopify Plus ops</h3><p data-i18n="s5.b">Metafields, bundles and bulk catalog work done right, so your store and your emails always match.</p></div>
+      <div><div class="num">06</div><h3 data-i18n="s6.h">Reporting that drives decisions</h3><p data-i18n="s6.b">Automated reports across Klaviyo and Shopify — revenue, LTV and churn at a glance, so you always know the next move.</p></div>
+    </div>
+  </section>
+
+  <!-- WHO I WORK WITH -->
+  <section class="block wrap" id="fit">
+    <div class="sec-head" data-reveal>
+      <span class="eyebrow" data-i18n="fit.eyebrow">Who I work with</span>
+      <h2><span data-i18n="fit.h">Whether you're starting out or </span><span class="hl" data-i18n="fit.hl">scaling up.</span></h2>
+      <p data-i18n="fit.sub">I work with stores that already have a subscriber base and with stores setting up Klaviyo from scratch — any number of products. Either way, segmentation turns your list into revenue: the right offer to the right people.</p>
+    </div>
+    <div class="cards3">
+      <div class="pcard" data-reveal>
+        <div class="mk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg></div>
+        <h3 data-i18n="fit.c1h">Existing base</h3>
+        <p data-i18n="fit.c1b">Already have subscribers? I audit the account, rebuild the flows and recover the revenue that's sitting there unused.</p>
+      </div>
+      <div class="pcard" data-reveal>
+        <div class="mk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg></div>
+        <h3 data-i18n="fit.c2h">From scratch</h3>
+        <p data-i18n="fit.c2b">New store or new to Klaviyo? I set the whole system up from zero — flows, segments, deliverability and reporting.</p>
+      </div>
+      <div class="pcard" data-reveal>
+        <div class="mk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5 9-5Z"/><path d="M3 13l9 5 9-5"/></svg></div>
+        <h3 data-i18n="fit.c3h">Any catalog size</h3>
+        <p data-i18n="fit.c3b">From a handful of products to 10,000+ and 100,000+ customers — segmentation scales to whatever you sell.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <section class="block wrap" id="results">
+    <div class="sec-head" data-reveal>
+      <span class="eyebrow" data-i18n="results.eyebrow">Results</span>
+      <h2><span data-i18n="results.h">Proof it </span><span class="hl" data-i18n="results.hl">pays off.</span></h2>
+    </div>
+    <div class="results" data-reveal>
+      <div class="rgrid">
+        <div class="rstat"><div class="n tnum"><span class="count" data-to="28.5" data-dec="1">28.5</span><small>%</small></div><div class="l" data-i18n="r1">Email + SMS share of total store revenue</div></div>
+        <div class="rstat"><div class="n tnum"><span class="count" data-to="68">68</span><small>%</small></div><div class="l" data-i18n="r2">of that revenue from automated flows</div></div>
+        <div class="rstat"><div class="n tnum"><span class="count" data-to="12" data-pre="+">+12</span><small>%</small></div><div class="l" data-i18n="r3">conversion-rate lift from CRO work</div></div>
+        <div class="rstat"><div class="n tnum"><span class="count" data-to="100" data-suf="k+">100k+</span></div><div class="l" data-i18n="r4">customer records managed</div></div>
+        <div class="rstat"><div class="n tnum"><span class="count" data-to="5">5</span></div><div class="l" data-i18n="r5">languages in one automated Welcome flow</div></div>
+        <div class="rstat"><div class="n tnum"><span class="count" data-to="10" data-suf="k+">10k+</span></div><div class="l" data-i18n="r6">products across Shopify Plus catalogs</div></div>
+      </div>
+      <p class="rnote" data-i18n="results.note">Rebuilt Welcome, Post-Purchase and Winback architectures after a full account audit, across two storefronts.</p>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="block wrap" id="process">
+    <div class="sec-head" data-reveal>
+      <span class="eyebrow" data-i18n="process.eyebrow">You + a team</span>
+      <h2><span data-i18n="process.h">You get me. The work gets a </span><span class="hl" data-i18n="process.hl">team.</span></h2>
+      <p class="proc-sub" data-i18n="process.sub">Direct access to the person who plans your retention, with the capacity of a team behind delivery — so quality and speed both hold as you grow.</p>
+    </div>
+    <div class="cols3">
+      <div class="pc" data-reveal><div class="tag" data-i18n="col1.tag">Strategy</div><h3 data-i18n="col1.h">You work with me</h3><p data-i18n="col1.b">Strategy, audits, the plan and the final call — one point of contact who knows your account.</p></div>
+      <div class="pc" data-reveal><div class="tag" data-i18n="col2.tag">Delivery</div><h3 data-i18n="col2.h">The team ships</h3><p data-i18n="col2.b">Build, QA, localization and reporting — execution that doesn't stall when volume grows.</p></div>
+      <div class="pc" data-reveal><div class="tag" data-i18n="col3.tag">Pace</div><h3 data-i18n="col3.h">Fast and consistent</h3><p data-i18n="col3.b">More hands means flows launch in days, not weeks, at a steady standard.</p></div>
+    </div>
+    <div class="steps">
+      <div class="step" data-reveal><div class="s">1</div><div><h4 data-i18n="step1.h">Audit</h4><p data-i18n="step1.b">Find the gaps and the revenue they cost.</p></div></div>
+      <div class="step" data-reveal><div class="s">2</div><div><h4 data-i18n="step2.h">Build</h4><p data-i18n="step2.b">Set up flows, segments and the campaign calendar.</p></div></div>
+      <div class="step" data-reveal><div class="s">3</div><div><h4 data-i18n="step3.h">Scale</h4><p data-i18n="step3.b">Optimize on the data — LTV, churn, attribution.</p></div></div>
+    </div>
+  </section>
+
+  <!-- STACK -->
+  <section class="block wrap" id="stack">
+    <div class="sec-head" data-reveal>
+      <span class="eyebrow" data-i18n="stack.eyebrow">Stack</span>
+      <h2><span data-i18n="stack.h">The stack behind the </span><span class="hl" data-i18n="stack.hl">revenue.</span></h2>
+    </div>
+    <div class="chips" data-reveal>
+      <span class="chip"><b>Klaviyo</b></span>
+      <span class="chip">Shopify Plus</span>
+      <span class="chip">Matrixify</span>
+      <span class="chip">GA4</span>
+      <span class="chip">Microsoft Clarity</span>
+      <span class="chip">Meta Ads</span>
+      <span class="chip">Liquid</span>
+    </div>
+    <div class="ai-row" data-reveal>
+      <span class="ai-label" data-i18n="stack.ai">AI in the workflow</span>
+      <div class="chips chips-ai">
+        <span class="chip"><b>Claude</b></span>
+        <span class="chip">Claude Code</span>
+        <span class="chip">ChatGPT</span>
+        <span class="chip">Gemini</span>
+        <span class="chip">Codex</span>
+      </div>
+      <p class="ai-note" data-i18n="stack.ainote">AI-assisted ideation, copy variations, segmentation analysis and reporting — faster output, with human QA on everything that ships.</p>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="block wrap" id="about">
+    <div class="about">
+      <div data-reveal>
+        <div class="about-photo"><img src="roman-about.png" alt="Roman Hrabovyi" loading="lazy" decoding="async"></div>
+        <span class="eyebrow" data-i18n="about.eyebrow">About</span>
+        <h2 style="margin-top:12px"><span data-i18n="about.h">Who you'll actually </span><span class="hl" data-i18n="about.hl">work with.</span></h2>
+        <p class="body" data-i18n="about.intro" style="margin-top:14px">Not an agency hiding behind a logo — a specialist you talk to directly, with a team behind the work.</p>
+        <div class="mini">
+          <div><div class="n tnum"><span data-i18n="about.n1">3 yrs</span></div><div class="l" data-i18n="about.k1">Klaviyo</div></div>
+          <div><div class="n tnum"><span data-i18n="about.n2">10+ yrs</span></div><div class="l" data-i18n="about.k2">e-commerce</div></div>
+          <div><div class="n tnum">US · EU · UK</div><div class="l" data-i18n="about.k3">markets</div></div>
+        </div>
+      </div>
+      <div class="qa" data-reveal>
+        <div class="qa-item"><div class="qa-l" data-i18n="about.q1">Who I am</div><p data-i18n="about.a1">I'm Roman — an email &amp; e-commerce specialist with 3 years in Klaviyo and 10+ years running online stores for DTC brands.</p></div>
+        <div class="qa-item"><div class="qa-l" data-i18n="about.q2">Why me</div><p data-i18n="about.a2">I've actually run stores, not just sent emails — so I build retention that fits how your shop really sells. You work with me directly; my team ships the build, fast and right.</p></div>
+        <div class="qa-item"><div class="qa-l" data-i18n="about.q3">What I do</div><p data-i18n="about.a3">Klaviyo flows and campaigns, segmentation, deliverability and reporting — I turn the list you already have into steady, predictable revenue. AI-assisted where it helps, with human QA on everything.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA / FORM -->
+  <section class="block wrap" id="start">
+    <div class="cta" data-reveal>
+      <div>
+        <span class="eyebrow" data-i18n="cta.eyebrow">Start</span>
+        <h2><span class="hl" data-i18n="cta.hhl">Free</span><span data-i18n="cta.h"> Klaviyo audit — see your upside.</span></h2>
+        <p class="sub" data-i18n="cta.sub">Tell me about your store and I'll send back exactly where the quick retention revenue is — specific flows, specific fixes. A clear action plan you can use right away, no commitment.</p>
+        <ul class="audit-list">
+          <li data-i18n="cta.b1">The flows you're missing — and what they're worth</li>
+          <li data-i18n="cta.b2">A deliverability and list-health check</li>
+          <li data-i18n="cta.b3">A revenue estimate for the next 90 days</li>
+        </ul>
+        <div class="contacts">
+          <a href="mailto:roman.ret.mark@gmail.com" id="c-email">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></span>
+            roman.ret.mark@gmail.com
+          </a>
+          <div class="ci">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014 2h3a2 2 0 012 1.7c.1.9.3 1.8.6 2.6a2 2 0 01-.5 2.1L8 9.5a16 16 0 006 6l1.1-1.1a2 2 0 012.1-.5c.8.3 1.7.5 2.6.6a2 2 0 011.7 2Z"/></svg></span>
+            <span style="user-select:all">+380 63 697 80 10</span>
+          </div>
+          <a id="c-telegram" href="https://t.me/+380636978010" target="_blank" rel="noopener">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><path d="M22 3 2 11l6 2 2 6 3-4 5 4Z"/><path d="M8 13l9-6"/></svg></span>
+            Telegram
+          </a>
+          <a id="c-linkedin" href="#" target="_blank" rel="noopener" hidden>
+            <span class="ic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.94 5a1.94 1.94 0 11-3.88 0 1.94 1.94 0 013.88 0ZM3.5 8.5h3V21h-3V8.5Zm5 0h2.9v1.7h.04c.4-.76 1.4-1.56 2.86-1.56 3.06 0 3.63 2 3.63 4.6V21h-3v-5.8c0-1.38-.03-3.16-1.93-3.16-1.93 0-2.23 1.5-2.23 3.06V21h-3V8.5Z"/></svg></span>
+            LinkedIn
+          </a>
+        </div>
+      </div>
+
+      <div>
+        <form id="lead" novalidate>
+          <div class="two">
+            <div class="field"><label for="f-name" data-i18n="form.name">Name</label><input id="f-name" name="name" autocomplete="name" required></div>
+            <div class="field"><label for="f-email" data-i18n="form.email">Email</label><input id="f-email" name="email" type="email" autocomplete="email" required></div>
+          </div>
+          <div class="two">
+            <div class="field"><label for="f-site" data-i18n="form.site">Store URL</label><input id="f-site" name="site" placeholder="yourstore.com"></div>
+            <div class="field"><label for="f-rev" data-i18n="form.rev">Monthly email revenue</label>
+              <select id="f-rev" name="revenue">
+                <option value="" data-i18n="form.rev.0">Not sure yet</option>
+                <option value="<$5k">&lt; $5k</option>
+                <option value="$5k–$20k">$5k – $20k</option>
+                <option value="$20k–$50k">$20k – $50k</option>
+                <option value="$50k+">$50k+</option>
+              </select>
+            </div>
+          </div>
+          <div class="field"><label for="f-msg" data-i18n="form.msg">What do you need?</label><textarea id="f-msg" name="message" required></textarea></div>
+          <p class="form-err" id="form-err" data-i18n="err" hidden>Please fill in your name, a valid email, and a short message.</p>
+          <button class="btn btn-primary" type="submit" data-i18n="form.submit">Get my free audit</button>
+          <p class="form-note" data-i18n="form.note">No commitment — just a clear next step for your store.</p>
+        </form>
+
+        <div class="success" id="ok" hidden>
+          <h3 data-i18n="success.h">Your request is ready.</h3>
+          <p id="ok-b" data-i18n="success.b">Copy it and send it to me, or use the contacts on the left — I'll come back with a clear next step.</p>
+          <pre id="ok-text"></pre>
+          <div class="row">
+            <button class="btn btn-primary" type="button" id="copy" data-i18n="success.copy">Copy request</button>
+            <button class="btn btn-ghost" type="button" id="again" data-i18n="success.again">New request</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <span><span class="fbrand grad-metal">Roman Hrabovyi</span> · <span data-i18n="footer.role">Klaviyo &amp; Retention for DTC</span></span>
+    <span>© 2026 · <span style="user-select:all">roman.ret.mark@gmail.com</span></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  // Hosting on your own domain? Put your form endpoint here (Formspree, your
+  // backend) or swap the form block for a Klaviyo embed form, and submissions
+  // will POST there. Left empty, the form hands the visitor a ready-to-send
+  // request + contacts (works everywhere, incl. the shared artifact link).
+  var FORM_ENDPOINT = "";
+
+  // Paste your LinkedIn profile URL here to show the LinkedIn contact link.
+  var LINKEDIN_URL = "";
+  // Telegram link — defaults to your CV phone; swap for https://t.me/yourusername if you prefer.
+  var TELEGRAM_URL = "https://t.me/+380636978010";
+
+  var i18n = {
+    en: {
+      "nav.work":"Work","nav.results":"Results","nav.process":"Process","nav.about":"About","nav.cta":"Leave a request",
+      "hero.eyebrow":"Klaviyo & Retention · DTC",
+      "hero.h1pre":"Email marketing that ","hero.h1accent":"drives sales.",
+      "hero.sub":"Klaviyo flows and campaigns that turn subscribers into repeat buyers — up to 28.5% of store revenue, 68% of it on autopilot. You work directly with me; my team ships it, fast.",
+      "hero.cta1":"Get a free audit","hero.cta2":"See results","hero.micro":"Free audit · a clear action plan · no commitment.",
+      "hero.trust":"3 yrs Klaviyo · 10+ yrs e-commerce · Shopify Plus · 5 languages",
+      "viz.label":"Email revenue","viz.trend":"Growth",
+      "metrics.flows":"Flows","metrics.campaigns":"Campaigns",
+      "metrics.note":"Flows and campaigns both — emails built to ","metrics.notehl":"sell","metrics.note2":", not just to get opened.",
+      "metrics.share":"of store revenue from email + SMS",
+      "metrics.m1":"customers","metrics.m2":"products","metrics.m3":"conversion",
+      "niche":"Perfume · Cosmetics · Apparel · Home goods · DTC US & EU",
+      "problem.eyebrow":"The problem",
+      "problem.h":"You're leaving money in the ","problem.hl":"inbox.",
+      "problem.sub":"Every day without working flows is revenue walking out the door — and it's recoverable from the list you already have.",
+      "p1.h":"Flows half-built","p1.b":"Welcome, cart and post-purchase exist on paper but don't recover the revenue they should.",
+      "p2.h":"Campaigns ad hoc","p2.b":"No calendar, no segmentation — the same blast to everyone, quietly hurting deliverability.",
+      "p3.h":"No read on the data","p3.b":"LTV, churn and flow revenue aren't tracked, so priorities come down to guesswork.",
+      "services.eyebrow":"What I set up",
+      "services.h":"A Klaviyo system built to ","services.hl":"sell.",
+      "s1.h":"Flow architecture","s1.b":"Welcome, Abandoned Cart, Browse Abandonment, Post-Purchase, Winback, Review and VIP — automated revenue that keeps earning while you sleep.",
+      "s2.h":"Audit & migration","s2.b":"A full audit that shows exactly where revenue leaks — with prioritized fixes and the money each one is worth.",
+      "s3.h":"Segmentation & deliverability","s3.b":"The right message to the right segment — higher opens, more sales, and an inbox that trusts you.",
+      "s4.h":"Multilingual flows","s4.b":"Localized journeys that sell in every market you ship to — a 5-language Welcome flow with automatic discounts.",
+      "s5.h":"Shopify Plus ops","s5.b":"Metafields, bundles and bulk catalog work done right, so your store and your emails always match.",
+      "s6.h":"Reporting that drives decisions","s6.b":"Automated reports across Klaviyo and Shopify — revenue, LTV and churn at a glance, so you always know the next move.",
+      "fit.eyebrow":"Who I work with","fit.h":"Whether you're starting out or ","fit.hl":"scaling up.","fit.sub":"I work with stores that already have a subscriber base and with stores setting up Klaviyo from scratch — any number of products. Either way, segmentation turns your list into revenue: the right offer to the right people.",
+      "fit.c1h":"Existing base","fit.c1b":"Already have subscribers? I audit the account, rebuild the flows and recover the revenue that's sitting there unused.",
+      "fit.c2h":"From scratch","fit.c2b":"New store or new to Klaviyo? I set the whole system up from zero — flows, segments, deliverability and reporting.",
+      "fit.c3h":"Any catalog size","fit.c3b":"From a handful of products to 10,000+ and 100,000+ customers — segmentation scales to whatever you sell.",
+      "results.eyebrow":"Results","results.h":"Proof it ","results.hl":"pays off.",
+      "r1":"Email + SMS share of total store revenue","r2":"of that revenue from automated flows",
+      "r3":"conversion-rate lift from CRO work","r4":"customer records managed",
+      "r5":"languages in one automated Welcome flow","r6":"products across Shopify Plus catalogs",
+      "results.note":"Rebuilt Welcome, Post-Purchase and Winback architectures after a full account audit, across two storefronts.",
+      "process.eyebrow":"You + a team","process.h":"You get me. The work gets a ","process.hl":"team.",
+      "process.sub":"Direct access to the person who plans your retention, with the capacity of a team behind delivery — so quality and speed both hold as you grow.",
+      "col1.tag":"Strategy","col1.h":"You work with me","col1.b":"Strategy, audits, the plan and the final call — one point of contact who knows your account.",
+      "col2.tag":"Delivery","col2.h":"The team ships","col2.b":"Build, QA, localization and reporting — execution that doesn't stall when volume grows.",
+      "col3.tag":"Pace","col3.h":"Fast and consistent","col3.b":"More hands means flows launch in days, not weeks, at a steady standard.",
+      "step1.h":"Audit","step1.b":"Find the gaps and the revenue they cost.",
+      "step2.h":"Build","step2.b":"Set up flows, segments and the campaign calendar.",
+      "step3.h":"Scale","step3.b":"Optimize on the data — LTV, churn, attribution.",
+      "ph.photo":"Your photo",
+      "work.eyebrow":"A look at the work","work.h":"Flows, emails and ","work.hl":"dashboards.",
+      "work.s1":"Klaviyo flow","work.s2":"Email design","work.s3":"Revenue dashboard",
+      "stack.eyebrow":"Stack","stack.h":"The stack behind the ","stack.hl":"revenue.",
+      "stack.ai":"AI in the workflow","stack.ainote":"AI-assisted ideation, copy variations, segmentation analysis and reporting — faster output, with human QA on everything that ships.",
+      "about.eyebrow":"About","about.h":"Who you'll actually ","about.hl":"work with.","about.intro":"Not an agency hiding behind a logo — a specialist you talk to directly, with a team behind the work.",
+      "about.n1":"3 yrs","about.n2":"10+ yrs","about.k1":"Klaviyo","about.k2":"e-commerce","about.k3":"markets",
+      "about.q1":"Who I am","about.a1":"I'm Roman — an email & e-commerce specialist with 3 years in Klaviyo and 10+ years running online stores for DTC brands.",
+      "about.q2":"Why me","about.a2":"I've actually run stores, not just sent emails — so I build retention that fits how your shop really sells. You work with me directly; my team ships the build, fast and right.",
+      "about.q3":"What I do","about.a3":"Klaviyo flows and campaigns, segmentation, deliverability and reporting — I turn the list you already have into steady, predictable revenue. AI-assisted where it helps, with human QA on everything.",
+      "cta.eyebrow":"Start","cta.hhl":"Free","cta.h":" Klaviyo audit — see your upside.",
+      "cta.sub":"Tell me about your store and I'll send back exactly where the quick retention revenue is — specific flows, specific fixes. A clear action plan you can use right away, no commitment.",
+      "cta.b1":"The flows you're missing — and what they're worth","cta.b2":"A deliverability and list-health check","cta.b3":"A revenue estimate for the next 90 days",
+      "form.name":"Name","form.email":"Email","form.site":"Store URL","form.rev":"Monthly email revenue","form.rev.0":"Not sure yet",
+      "form.msg":"What do you need?","form.submit":"Get my free audit","form.note":"No commitment — just a clear next step for your store.",
+      "success.h":"Your request is ready.","success.b":"Copy it and send it to me, or use the contacts on the left — I'll come back with a clear next step.",
+      "success.copy":"Copy request","success.copied":"Copied","success.again":"New request",
+      "success.sent":"Request sent. I'll come back with a clear next step.",
+      "footer.role":"Klaviyo & Retention for DTC",
+      "err":"Please fill in your name, a valid email, and a short message."
+    },
+    ua: {
+      "nav.work":"Напрями","nav.results":"Результати","nav.process":"Як працюю","nav.about":"Про мене","nav.cta":"Залишити заявку",
+      "hero.eyebrow":"Klaviyo та утримання · DTC",
+      "hero.h1pre":"Email-маркетинг, що ","hero.h1accent":"приносить продажі.",
+      "hero.sub":"Klaviyo-флоу та кампанії, що перетворюють підписників на постійних покупців — до 28,5% доходу магазину, 68% з цього на автопілоті. Ви працюєте напряму зі мною, а команда швидко все реалізує.",
+      "hero.cta1":"Безкоштовний аудит","hero.cta2":"Дивитись результати","hero.micro":"Безкоштовний аудит · чіткий план дій · без зобов'язань.",
+      "hero.trust":"3 роки Klaviyo · 10+ років e-commerce · Shopify Plus · 5 мов",
+      "viz.label":"Дохід з email","viz.trend":"Зростання",
+      "metrics.flows":"Флоу","metrics.campaigns":"Кампанії",
+      "metrics.note":"Флоу і кампанії — листи, що ","metrics.notehl":"продають","metrics.note2":", а не лише відкриваються.",
+      "metrics.share":"доходу магазину — з email + SMS",
+      "metrics.m1":"клієнтів","metrics.m2":"товарів","metrics.m3":"конверсія",
+      "niche":"Парфумерія · Косметика · Одяг · Товари для дому · DTC US та EU",
+      "problem.eyebrow":"Проблема",
+      "problem.h":"Ви лишаєте гроші в ","problem.hl":"інбоксі.",
+      "problem.sub":"Кожен день без робочих флоу — це дохід, що йде геть. І його можна повернути з бази, яка вже у вас є.",
+      "p1.h":"Флоу недобудовані","p1.b":"Welcome, кинутий кошик і post-purchase є на папері, але не повертають дохід, який могли б.",
+      "p2.h":"Кампанії наосліп","p2.b":"Немає календаря й сегментації — одна розсилка на всіх, що поступово псує доставляність.",
+      "p3.h":"Немає погляду в дані","p3.b":"LTV, відтік і дохід з флоу не відстежуються, тож пріоритети — це здогадки.",
+      "services.eyebrow":"Що я налаштовую",
+      "services.h":"Klaviyo-система, створена ","services.hl":"продавати.",
+      "s1.h":"Архітектура флоу","s1.b":"Welcome, кинутий кошик, Browse Abandonment, Post-Purchase, Winback, Review і VIP — автоматичний дохід, що працює навіть уночі.",
+      "s2.h":"Аудит і міграція","s2.b":"Повний аудит, що показує, де саме витікає дохід — з пріоритетними правками й сумою, яку кожна приносить.",
+      "s3.h":"Сегментація і доставляність","s3.b":"Правильне повідомлення правильному сегменту — вищі відкриття, більше продажів та інбокс, що вам довіряє.",
+      "s4.h":"Багатомовні флоу","s4.b":"Локалізовані сценарії, що продають на кожному ринку — 5-мовний Welcome-флоу з автоматичними знижками.",
+      "s5.h":"Операції Shopify Plus","s5.b":"Метаполя, бандли й масові операції з каталогом — щоб магазин і листи завжди збігалися.",
+      "s6.h":"Звіти, що керують рішеннями","s6.b":"Автоматичні звіти по Klaviyo і Shopify — дохід, LTV і відтік з одного погляду, щоб завжди знати наступний крок.",
+      "fit.eyebrow":"З ким працюю","fit.h":"Чи ви лише стартуєте, чи ","fit.hl":"масштабуєтесь.","fit.sub":"Працюю і з магазинами, що вже мають базу підписників, і з тими, кому треба налаштувати Klaviyo з нуля — незалежно від кількості товарів. У будь-якому разі сегментація перетворює базу на дохід: потрібна пропозиція потрібним людям.",
+      "fit.c1h":"Є база","fit.c1b":"Уже маєте підписників? Проводжу аудит акаунта, перебудовую флоу й повертаю дохід, що лежить невикористаний.",
+      "fit.c2h":"З нуля","fit.c2b":"Новий магазин чи вперше з Klaviyo? Налаштовую всю систему з нуля — флоу, сегменти, доставляність і звіти.",
+      "fit.c3h":"Будь-яка кількість товарів","fit.c3b":"Від кількох товарів до 10 000+ і 100 000+ клієнтів — сегментація масштабується під те, що ви продаєте.",
+      "results.eyebrow":"Результати","results.h":"Доказ, що це ","results.hl":"окупається.",
+      "r1":"частка email + SMS у загальному доході магазину","r2":"з цього доходу — з автоматичних флоу",
+      "r3":"приріст конверсії від CRO-роботи","r4":"записів клієнтів в управлінні",
+      "r5":"мов в одному автоматичному Welcome-флоу","r6":"товарів у каталогах Shopify Plus",
+      "results.note":"Перебудовані архітектури Welcome, Post-Purchase і Winback після повного аудиту акаунта, на двох магазинах.",
+      "process.eyebrow":"Я + команда","process.h":"Ви отримуєте мене. Роботу — ","process.hl":"команда.",
+      "process.sub":"Прямий доступ до людини, що планує ваше утримання, і команда, що все виконує — щоб якість і швидкість трималися з ростом.",
+      "col1.tag":"Стратегія","col1.h":"Працюєте зі мною","col1.b":"Стратегія, аудити, план і фінальне рішення — одна точка контакту, що знає ваш акаунт.",
+      "col2.tag":"Виконання","col2.h":"Команда виконує","col2.b":"Побудова, QA, локалізація і звіти — виконання, що не зупиняється, коли росте обсяг.",
+      "col3.tag":"Темп","col3.h":"Швидко і стабільно","col3.b":"Більше рук — флоу запускаються за дні, а не тижні, на стабільному рівні.",
+      "step1.h":"Аудит","step1.b":"Знайти прогалини і дохід, який вони коштують.",
+      "step2.h":"Побудова","step2.b":"Налаштувати флоу, сегменти і календар кампаній.",
+      "step3.h":"Масштаб","step3.b":"Оптимізувати на даних — LTV, відтік, атрибуція.",
+      "ph.photo":"Ваше фото",
+      "work.eyebrow":"Приклади робіт","work.h":"Флоу, листи та ","work.hl":"дашборди.",
+      "work.s1":"Klaviyo-флоу","work.s2":"Дизайн листа","work.s3":"Дашборд доходу",
+      "stack.eyebrow":"Стек","stack.h":"Стек, що стоїть за ","stack.hl":"доходом.",
+      "stack.ai":"AI у роботі","stack.ainote":"AI-асистована генерація ідей, варіантів копірайту, аналіз сегментів і звіти — швидший результат, з людським QA на всьому, що йде в роботу.",
+      "about.eyebrow":"Про мене","about.h":"З ким ви насправді ","about.hl":"працюєте.","about.intro":"Не агенція за лого — спеціаліст, з яким ви говорите напряму, і команда за роботою.",
+      "about.n1":"3 роки","about.n2":"10+ років","about.k1":"Klaviyo","about.k2":"e-commerce","about.k3":"ринки",
+      "about.q1":"Хто я","about.a1":"Я — Роман, спеціаліст з email та e-commerce: 3 роки в Klaviyo і 10+ років в онлайн-магазинах для DTC-брендів.",
+      "about.q2":"Чому я","about.a2":"Я сам керував магазинами, а не лише надсилав листи — тому будую утримання під те, як реально продає ваш магазин. Ви працюєте напряму зі мною, а команда робить реалізацію: швидко і правильно.",
+      "about.q3":"Чим займаюсь","about.a3":"Klaviyo-флоу та кампанії, сегментація, доставляність і звіти — перетворюю вашу наявну базу на стабільний, передбачуваний дохід. AI допомагає там, де це пришвидшує, з людським QA на всьому.",
+      "cta.eyebrow":"Старт","cta.hhl":"Безкоштовний","cta.h":" Klaviyo-аудит — побачте свій потенціал.",
+      "cta.sub":"Розкажіть про свій магазин — і я надішлю, де саме лежить швидкий дохід з утримання: конкретні флоу, конкретні правки. Чіткий план дій, який можна застосувати одразу, без зобов'язань.",
+      "cta.b1":"Яких флоу бракує — і скільки вони варті","cta.b2":"Перевірка доставляності та здоров'я бази","cta.b3":"Оцінка доходу на найближчі 90 днів",
+      "form.name":"Ім'я","form.email":"Email","form.site":"Сайт магазину","form.rev":"Місячний дохід з email","form.rev.0":"Поки не знаю",
+      "form.msg":"Що потрібно?","form.submit":"Отримати безкоштовний аудит","form.note":"Без зобов'язань — лише чіткий наступний крок для вашого магазину.",
+      "success.h":"Заявку сформовано.","success.b":"Скопіюйте й надішліть мені, або скористайтеся контактами ліворуч — повернуся з чітким наступним кроком.",
+      "success.copy":"Копіювати заявку","success.copied":"Скопійовано","success.again":"Нова заявка",
+      "success.sent":"Заявку надіслано. Повернуся з чітким наступним кроком.",
+      "footer.role":"Klaviyo та утримання для DTC",
+      "err":"Будь ласка, вкажіть ім'я, коректний email і короткий опис."
+    }
+  };
+
+  var lang = "en";
+  try { var s = localStorage.getItem("rh_lang"); if (s==="en"||s==="ua") lang = s; } catch(e){}
+  function t(k){ return (i18n[lang] && i18n[lang][k]) || (i18n.en[k]) || ""; }
+
+  function render(){
+    var dict = i18n[lang];
+    document.querySelectorAll("[data-i18n]").forEach(function(el){
+      var k = el.getAttribute("data-i18n");
+      if (dict[k] != null) el.textContent = dict[k];
+    });
+    document.documentElement.setAttribute("lang", lang==="ua" ? "uk" : "en");
+    document.querySelectorAll(".lang button").forEach(function(b){
+      b.setAttribute("aria-pressed", String(b.getAttribute("data-lang")===lang));
+    });
+  }
+  document.querySelectorAll(".lang button").forEach(function(b){
+    b.addEventListener("click", function(){
+      lang = b.getAttribute("data-lang");
+      try { localStorage.setItem("rh_lang", lang); } catch(e){}
+      render();
+    });
+  });
+
+  // ---- Mobile burger ----
+  var burger = document.getElementById("burger"), menu = document.getElementById("mobile-menu");
+  function setMenu(open){ burger.setAttribute("aria-expanded", String(open)); menu.hidden = !open; }
+  burger.addEventListener("click", function(){ setMenu(burger.getAttribute("aria-expanded")!=="true"); });
+  menu.querySelectorAll("a").forEach(function(a){ a.addEventListener("click", function(){ setMenu(false); }); });
+
+  // ---- Header elevation on scroll ----
+  var header = document.getElementById("site-header"), prog = document.getElementById("progress");
+  function onScroll(){
+    header.classList.toggle("scrolled", window.scrollY > 8);
+    if (prog){ var h=document.documentElement, m=h.scrollHeight-h.clientHeight; prog.style.width=(m>0?(h.scrollTop/m*100):0)+"%"; }
+  }
+  window.addEventListener("scroll", onScroll, {passive:true}); onScroll();
+
+  // ---- Split bar fill ----
+  function fillSplit(scope){
+    (scope||document).querySelectorAll(".split span").forEach(function(el){
+      var w = el.style.getPropertyValue("--w"); if (w) el.style.width = w;
+    });
+  }
+
+  // ---- Count-up on reveal ----
+  function countUp(el){
+    if (el.dataset.done) return; el.dataset.done = "1";
+    var to = parseFloat(el.dataset.to), dec = parseInt(el.dataset.dec||"0",10),
+        pre = el.dataset.pre||"", suf = el.dataset.suf||"", final = el.textContent,
+        dur = 1150, start = null;
+    if (isNaN(to)) return;
+    function tick(now){
+      if (start===null) start = now;
+      var p = Math.min((now-start)/dur,1), e = 1-Math.pow(1-p,3);
+      el.textContent = pre + (to*e).toFixed(dec) + suf;
+      if (p<1) requestAnimationFrame(tick); else el.textContent = final;
+    }
+    requestAnimationFrame(tick);
+  }
+  function countIn(el){
+    if (el.classList && el.classList.contains("count")) countUp(el);
+    if (el.querySelectorAll) el.querySelectorAll(".count").forEach(countUp);
+  }
+
+  // ---- Reveal on view (gated; default = visible) ----
+  var reduce = false;
+  try { reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch(e){}
+
+  if (reduce){
+    fillSplit();
+  } else {
+    document.documentElement.classList.add("anim");
+    var reveal = function(el){
+      el.classList.add("in");
+      fillSplit(el);
+      countIn(el);
+    };
+    // Hero + above-the-fold: reveal immediately (never wait for scroll)
+    var hero = document.querySelector(".hero");
+    var heroItems = hero ? hero.querySelectorAll("[data-reveal]") : [];
+    heroItems.forEach(function(el,i){ el.style.transitionDelay = (i*80)+"ms"; });
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){
+      heroItems.forEach(reveal);
+    }); });
+
+    var rest = Array.prototype.filter.call(document.querySelectorAll("[data-reveal]"), function(el){
+      return !hero || !hero.contains(el);
+    });
+    if ("IntersectionObserver" in window){
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(en){
+          if (en.isIntersecting){ reveal(en.target); io.unobserve(en.target); }
+        });
+      }, {rootMargin:"0px 0px -8% 0px", threshold:.12});
+      // stagger siblings within a group
+      var seen = {};
+      rest.forEach(function(el){
+        var p = el.parentElement, key;
+        if (p){ key = (p.className||"")+""; seen[key]=(seen[key]||0); el.style.transitionDelay=(Math.min(seen[key],5)*70)+"ms"; seen[key]++; }
+        io.observe(el);
+      });
+    } else {
+      rest.forEach(reveal);
+    }
+  }
+
+  // ---- Form ----
+  var form = document.getElementById("lead"), ok = document.getElementById("ok"),
+      okText = document.getElementById("ok-text"), okB = document.getElementById("ok-b"),
+      ferr = document.getElementById("form-err");
+
+  function compose(d){
+    return "New request — Klaviyo / retention\n"+
+      "Name: "+d.name+"\nEmail: "+d.email+"\n"+
+      (d.site?"Store: "+d.site+"\n":"")+(d.revenue?"Monthly email revenue: "+d.revenue+"\n":"")+
+      "Needs: "+d.message;
+  }
+  form.addEventListener("submit", function(ev){
+    ev.preventDefault();
+    var d = { name:form.name.value.trim(), email:form.email.value.trim(), site:form.site.value.trim(),
+      revenue:form.revenue.value, message:form.message.value.trim() };
+    if (!d.name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email) || !d.message){ ferr.hidden=false; return; }
+    ferr.hidden = true;
+    okText.textContent = compose(d);
+    if (FORM_ENDPOINT){
+      fetch(FORM_ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify(d)})
+        .then(function(r){ if(r.ok){ okB.textContent = t("success.sent"); } }).catch(function(){});
+    }
+    form.hidden = true; ok.hidden = false; ok.scrollIntoView({behavior:"smooth",block:"nearest"});
+  });
+  document.getElementById("copy").addEventListener("click", function(){
+    var btn=this, txt=okText.textContent;
+    function flash(){ btn.textContent=t("success.copied"); setTimeout(function(){ btn.textContent=t("success.copy"); },1600); }
+    function select(){ var r=document.createRange(); r.selectNodeContents(okText); var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(r); flash(); }
+    if (navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).then(flash).catch(select); } else { select(); }
+  });
+  document.getElementById("again").addEventListener("click", function(){
+    ok.hidden=true; form.hidden=false; form.reset(); ferr.hidden=true; form.name.focus();
+  });
+
+  // ---- Social links ----
+  (function(){
+    var tg = document.getElementById("c-telegram"); if (tg && TELEGRAM_URL) tg.href = TELEGRAM_URL;
+    var li = document.getElementById("c-linkedin"); if (li && LINKEDIN_URL){ li.href = LINKEDIN_URL; li.hidden = false; }
+  })();
+
+  render();
+})();
+</script>
